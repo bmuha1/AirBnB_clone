@@ -4,29 +4,33 @@ Define a FileStorage class.
 """
 import json
 import os.path
+from models.base_model import BaseModel
+from datetime import datetime, date, time
 
 
 class FileStorage:
     """Define a FileStorage class."""
-    __file_path = ""
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
         """Return the dictionary __objects."""
-        # return self.__objects.__dict__
-        return self.__dict__
+        return self.__objects
 
     def new(self, obj):
         """Set in __objects the obj with key <obj class name>.id."""
-        self.__objects[__class__.__name__ + '.' + obj.id] = obj
+        self.__objects[obj.__class__.__name__ + '.' + obj.id] = obj
 
     def save(self):
         """Serialize __objects to the JSON file."""
-        with open(self.__file_path, 'a+') as f:
-            f.write(json.dumps(self.__objects))
+        with open(self.__file_path, 'w') as f:
+            new_dict = {key: obj.to_dict() for key, obj in
+                        self.__objects.items()}
+            json.dump(new_dict, f)
 
     def reload(self):
         """Deserialize the JSON file to __objects."""
         if os.path.isfile(self.__file_path):
             with open(self.__file_path, 'r') as f:
-                self.__objects = json.loads(f.read())
+                for key, value in json.load(f).items():
+                    self.__objects[key] = eval(key.split('.')[0])(**value)
