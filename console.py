@@ -3,6 +3,7 @@
 import cmd
 import sys
 import models
+import shlex
 from models.base_model import BaseModel
 from models import storage
 
@@ -17,11 +18,11 @@ class HBNBCommand(cmd.Cmd):
             print('** class name missing **')
             return
 
-        args = line.split()
+        args = shlex.split(line, posix=False)
         if args[0] != 'BaseModel':
             print("** class doesn't exist **")
             return
-        elif len(args) < 2:
+        elif len(args) == 1:
             print('** instance id missing **')
             return
         else:
@@ -32,9 +33,9 @@ class HBNBCommand(cmd.Cmd):
                 print('**no instance found **')
                 return
 
-        if len(args) < 3:
+        if len(args) == 2:
             print('** attribute name missing **')
-        elif len(args) < 4:
+        elif len(args) == 3:
             print('** value missing **')
         else:
             key = args[0] + '.' + args[1]
