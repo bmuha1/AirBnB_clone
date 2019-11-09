@@ -1,14 +1,54 @@
 #!/usr/bin/python3
 """ the entry point of the command interpreter """
-import cmd, sys
-from models.base_model import BaseModel
+import cmd
+import sys
 import models
+from models.base_model import BaseModel
 from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class"""
     prompt = "(hbnb) "
+
+    def do_update(self, line):
+        """Update an instance based on class name and id."""
+        if not line:
+            print('** class name missing **')
+            return
+
+        args = line.split()
+        if args[0] != 'BaseModel':
+            print("** class doesn't exist **")
+            return
+        elif len(args) < 2:
+            print('** instance id missing **')
+            return
+        else:
+            try:
+                key = args[0] + '.' + args[1]
+                storage.all()[key]
+            except:
+                print('**no instance found **')
+                return
+
+        if len(args) < 3:
+            print('** attribute name missing **')
+        elif len(args) < 4:
+            print('** value missing **')
+        else:
+            key = args[0] + '.' + args[1]
+            try:
+                if '.' in args[3]:
+                    value = float(args[3])
+                else:
+                    value = int(args[3])
+            except ValueError:
+                value = str(args[3]).strip('\"')
+                value = value.strip("\'")
+                value = str(value)
+            setattr(storage.all()[key], args[2], value)
+            storage.save()
 
     def do_all(self, line):
         """Print all instances."""
