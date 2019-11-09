@@ -17,6 +17,7 @@ class BaseModel:
                 if (key == 'created_at' or key == 'updated_at'):
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 if (key == '__class__'):
+                    from models.user import User
                     value = eval(value)
                 setattr(self, key, value)
         else:

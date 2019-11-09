@@ -6,6 +6,7 @@ import json
 import os.path
 from datetime import datetime, date, time
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:

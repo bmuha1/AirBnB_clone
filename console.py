@@ -60,8 +60,14 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """Print all instances."""
-        if not line or line in self.classes:
+        if not line:
             print([str(value) for key, value in storage.all().items()])
+        elif line in self.classes:
+            my_list = []
+            for key, value in storage.all().items():
+                if str(key.split('.')[0]) == line:
+                    my_list.append(str(value))
+            print(my_list)
         else:
             print("** class doesn't exist **")
 
