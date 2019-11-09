@@ -3,8 +3,8 @@
 Define a BaseModel.
 """
 import uuid
-from datetime import datetime, date, time
 import models
+from datetime import datetime, date, time
 
 
 class BaseModel:
