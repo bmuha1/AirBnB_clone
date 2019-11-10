@@ -8,6 +8,7 @@ class Place(BaseModel):
     """Place class that inherits from BaseModel"""
 
     def __init__(self, *args, **kwargs):
+        """Initialize Place."""
         self.city_id = ""
         self.user_id = ""
         self.name = ""
