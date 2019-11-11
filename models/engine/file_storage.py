@@ -4,8 +4,8 @@ Define a FileStorage class.
 """
 import json
 import os.path
-from models.base_model import BaseModel
 from datetime import datetime, date, time
+from models.base_model import BaseModel
 
 
 class FileStorage:

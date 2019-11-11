@@ -2,15 +2,22 @@
 """ the entry point of the command interpreter """
 import cmd
 import sys
-import models
 import shlex
 from models.base_model import BaseModel
 from models import storage
-
+from models.user import User
+"""from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+"""
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class"""
     prompt = "(hbnb) "
+
+    classes = ["BaseModel", "User"]
 
     def do_update(self, line):
         """Update an instance based on class name and id."""
@@ -19,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = shlex.split(line, posix=False)
-        if args[0] != 'BaseModel':
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
         elif len(args) == 1:
@@ -53,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """Print all instances."""
-        if not line or line == 'BaseModel':
+        if not line or line in self.classes:
             print([str(value) for key, value in storage.all().items()])
         else:
             print("** class doesn't exist **")
@@ -65,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = line.split()
-        if args[0] != 'BaseModel':
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -84,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         args = line.split()
-        if args[0] != 'BaseModel':
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
