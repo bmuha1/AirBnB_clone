@@ -18,8 +18,34 @@ class HBNBCommand(cmd.Cmd):
     """HBNBCommand class"""
     prompt = "(hbnb) "
 
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",
+               "Review"]
     functions = ["all", "destroy", "update", "show", "create"]
+
+    def precmd(self, line):
+        """ Parses the input string. """
+        for c in self.classes:
+            for f in self.functions:
+                prefix = "{}.{}".format(c, f)
+                if line.startswith(prefix):
+                    remain = line[len(prefix) + 1:-1].strip(",")
+                    remain2 = remain.split()
+                    if (len(remain2) == 1):
+                        id_attr = remain2[0].strip("\"")
+                        return "{} {} {}".format(f, c, id_attr)
+                    elif (len(remain2) == 2):
+                        id_attr = remain2[0].strip("\"")
+                        attr_name = remain2[1].strip("\"")
+                        return "{} {} {} {}".format(f, c, id_attr, attr_name)
+                    elif (len(remain2) >= 3):
+                        id_attr = remain2[0].strip("\"")
+                        attr_name = remain2[1].strip("\"")
+                        attr_val = remain2[2]
+                        return "{} {} {} {} {}".format(f, c, id_attr,
+                                                       attr_name, attr_val)
+                    new_line = "{} {} {}".format(f, c, remain)
+                    return new_line
+        return line
 
     def do_update(self, line):
         """Update an instance based on class name and id."""
@@ -63,13 +89,16 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """Print all instances."""
         if not line:
-            print([str(value) for key, value in storage.all().items()])
+            my_list = [str(value) for key, value in storage.all().items()]
+            if len(my_list) != 0:
+                print(my_list)
         elif line in self.classes:
             my_list = []
             for key, value in storage.all().items():
                 if str(key.split('.')[0]) == line:
                     my_list.append(str(value))
-            print(my_list)
+            if len(my_list) != 0:
+                print(my_list)
         else:
             print("** class doesn't exist **")
 
@@ -135,30 +164,8 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing"""
         pass
-    
-    def precmd(self, line):
-        """ Parses the input string. """       
-        for c in self.classes:
-            for f in self.functions:
-                prefix = "{}.{}".format(c, f)
-                if line.startswith(prefix):
-                    remain = line[len(prefix) + 1:-1].replace(",", "")
-                    remain2 = remain.split()
-                    if (len(remain2) == 1):
-                        id_attr = remain2[0].replace("\"", "")
-                        return "{} {} {}".format(f, c, id_attr)
-                    elif (len(remain2) == 2):
-                        id_attr = remain2[0].replace("\"", "")
-                        attr_name = remain2[1].replace("\"", "")
-                        return "{} {} {} {}".format(f, c, id_attr, attr_name)
-                    elif (len(remain2) >= 3):
-                        id_attr = remain2[0].replace("\"", "")
-                        attr_name = remain2[1].replace("\"", "")
-                        attr_val = remain2[2]
-                        return "{} {} {} {} {}".format(f, c, id_attr, attr_name, attr_val)
-                    new_line = "{} {} {}".format(f, c, remain)
-                    return new_line
-        return line
+
+
 
 
 if __name__ == "__main__":
