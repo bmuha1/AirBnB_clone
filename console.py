@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ the entry point of the command interpreter """
+import traceback
 import cmd
 import sys
 import shlex
@@ -18,6 +19,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    functions = ["all", "destroy", "update", "show", "create"]
 
     def do_update(self, line):
         """Update an instance based on class name and id."""
@@ -133,6 +135,31 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing"""
         pass
+    
+    def precmd(self, line):
+        """ Parses the input string. """       
+        for c in self.classes:
+            for f in self.functions:
+                prefix = "{}.{}".format(c, f)
+                if line.startswith(prefix):
+                    remain = line[len(prefix) + 1:-1].replace(",", "")
+                    remain2 = remain.split()
+                    if (len(remain2) == 1):
+                        id_attr = remain2[0].replace("\"", "")
+                        return "{} {} {}".format(f, c, id_attr)
+                    elif (len(remain2) == 2):
+                        id_attr = remain2[0].replace("\"", "")
+                        attr_name = remain2[1].replace("\"", "")
+                        return "{} {} {} {}".format(f, c, id_attr, attr_name)
+                    elif (len(remain2) >= 3):
+                        id_attr = remain2[0].replace("\"", "")
+                        attr_name = remain2[1].replace("\"", "")
+                        attr_val = remain2[2]
+                        return "{} {} {} {} {}".format(f, c, id_attr, attr_name, attr_val)
+                    new_line = "{} {} {}".format(f, c, remain)
+                    return new_line
+        return line
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
