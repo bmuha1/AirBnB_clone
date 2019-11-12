@@ -20,7 +20,7 @@ class HBNBCommand(cmd.Cmd):
 
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Place",
                "Review"]
-    functions = ["all", "destroy", "update", "show", "create"]
+    functions = ["all", "destroy", "update", "show", "create", "count"]
 
     def precmd(self, line):
         """ Parses the input string. """
@@ -101,6 +101,15 @@ class HBNBCommand(cmd.Cmd):
                 print(my_list)
         else:
             print("** class doesn't exist **")
+
+    def do_count(self, line):
+        """ Counts the number of objects. """
+        if line in self.classes:
+            counter = 0
+            for key, value in storage.all().items():
+                if str(key.split('.')[0]) == line:
+                    counter += 1
+            print(counter)
 
     def do_destroy(self, line):
         """Delete an instance based on class name and id."""
