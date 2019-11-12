@@ -174,8 +174,5 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing"""
         pass
 
-
-
-
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
