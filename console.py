@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
             for f in self.functions:
                 prefix = "{}.{}".format(c, f)
                 if line.startswith(prefix):
-                    remain = line[len(prefix) + 1:-1].strip(",")
+                    remain = line[len(prefix) + 1:-1].replace(",", "")
                     remain2 = remain.split()
                     if (len(remain2) == 1):
                         id_attr = remain2[0].strip("\"")
