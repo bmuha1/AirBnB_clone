@@ -31,15 +31,15 @@ class HBNBCommand(cmd.Cmd):
                     remain = line[len(prefix) + 1:-1].replace(",", "")
                     remain2 = remain.split()
                     if (len(remain2) == 1):
-                        id_attr = remain2[0].strip("\"")
+                        id_attr = remain2[0].strip("\"'")
                         return "{} {} {}".format(f, c, id_attr)
                     elif (len(remain2) == 2):
-                        id_attr = remain2[0].strip("\"")
-                        attr_name = remain2[1].strip("\"")
+                        id_attr = remain2[0].strip("\"'")
+                        attr_name = remain2[1].strip("\"'")
                         return "{} {} {} {}".format(f, c, id_attr, attr_name)
                     elif (len(remain2) >= 3):
-                        id_attr = remain2[0].strip("\"")
-                        attr_name = remain2[1].strip("\"")
+                        id_attr = remain2[0].strip("\"'")
+                        attr_name = remain2[1].strip("\"'")
                         attr_val = remain2[2]
                         return "{} {} {} {} {}".format(f, c, id_attr,
                                                        attr_name, attr_val)
