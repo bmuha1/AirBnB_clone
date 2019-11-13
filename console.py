@@ -45,8 +45,9 @@ class HBNBCommand(cmd.Cmd):
                             return "{} {} {} {} {}".format(f, c, id_attr,
                                                            attr_name, attr_val)
                         for i in range(1, len(remain2) // 2 + 1):
-                            attr_name = remain2[2 * i - 1].strip("\"'{}:")
-                            attr_val = remain2[2 * i].strip("\"'{}:")
+                            if len(remain2) >= 2 * i + 1:
+                                attr_name = remain2[2 * i - 1].strip("\"'{}:")
+                                attr_val = remain2[2 * i].strip("\"'{}:")
                             if (i >= len(remain2) // 2):
                                 return "{} {} {} {} {}".format(f, c, id_attr,
                                                                attr_name,
