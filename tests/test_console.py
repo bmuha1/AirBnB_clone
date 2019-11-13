@@ -2,6 +2,7 @@
 """ Test for Console """
 import unittest
 import os.path
+import pep8
 from io import StringIO
 from unittest.mock import patch
 from console import HBNBCommand
@@ -21,6 +22,139 @@ class TestConsole(unittest.TestCase):
             os.remove("file.json")
         if os.path.isfile("file.json.temp"):
             os.rename("file.json.temp", "file.json")
+
+    def test_pep8(self):
+        """ Test pep8 """
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(['tests/test_console.py'])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
+
+    def test_basemodel(self):
+        """ Test BaseModel """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create BaseModel")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update BaseModel " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show BaseModel " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_user(self):
+        """ Test user """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create User")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update User " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show User " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_state(self):
+        """ Test user """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create State")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update State " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show State " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_city(self):
+        """ Test city """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create City")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update City " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show City " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_amenity(self):
+        """ Test amenity """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Amenity")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update Amenity " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show Amenity " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_place(self):
+        """ Test place """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Place")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update Place " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show Place " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
+
+    def test_review(self):
+        """ Test review """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Review")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update Review " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show Review " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
 
     def test_create(self):
         """ Test create """
@@ -43,6 +177,12 @@ class TestConsole(unittest.TestCase):
     def test_show(self):
         """ Test show """
         with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create BaseModel")
+            id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
+
+        with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show")
             self.assertEqual(f.getvalue().strip(),
                              "** class name missing **")
@@ -60,7 +200,21 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("show BaseModel " + str(id))
             self.assertTrue(type(f), str)
-            self.assertEqual(len(f.getvalue().strip()), 23)
+            self.assertTrue("[BaseModel]" in f.getvalue().strip())
+            self.assertTrue("created_at" in f.getvalue().strip())
+            self.assertTrue("updated_at" in f.getvalue().strip())
+            self.assertTrue("id" in f.getvalue().strip())
+
+        """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("BaseModel.show(" + str(id) + ")")
+            self.assertEqual(f.getvalue().strip(), "")
+            self.assertTrue(type(f), str)
+            self.assertTrue("[BaseModel]" in f.getvalue().strip())
+            self.assertTrue("created_at" in f.getvalue().strip())
+            self.assertTrue("updated_at" in f.getvalue().strip())
+            self.assertTrue("id" in f.getvalue().strip())
+        """
 
     def test_destroy(self):
         """ Test destroy """
