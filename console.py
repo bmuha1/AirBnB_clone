@@ -105,22 +105,27 @@ class HBNBCommand(cmd.Cmd):
             my_list = [str(value) for key, value in storage.all().items()]
             if len(my_list) != 0:
                 print(my_list)
-        elif line in self.classes:
-            my_list = []
-            for key, value in storage.all().items():
-                if str(key.split('.')[0]) == line:
-                    my_list.append(str(value))
-            if len(my_list) != 0:
-                print(my_list)
         else:
-            print("** class doesn't exist **")
+            args = line.split()
+            if args[0] in self.classes:
+                my_list = []
+                for key, value in storage.all().items():
+                    if str(key.split('.')[0]) == args[0]:
+                        my_list.append(str(value))
+                if len(my_list) != 0:
+                    print(my_list)
+            else:
+                print("** class doesn't exist **")
 
     def do_count(self, line):
         """ Counts the number of objects. """
-        if line in self.classes:
+        if not line:
+            return
+        args = line.split()
+        if args[0] in self.classes:
             counter = 0
             for key, value in storage.all().items():
-                if str(key.split('.')[0]) == line:
+                if str(key.split('.')[0]) == args[0]:
                     counter += 1
             print(counter)
 
@@ -166,9 +171,9 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print('** class name missing **')
             return
-
+        args = line.split()
         try:
-            new = eval(line + '()')
+            new = eval(args[0] + '()')
             print(new.id)
             new.save()
         except:
