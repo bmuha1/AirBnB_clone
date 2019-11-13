@@ -77,6 +77,14 @@ EOF  all  count  create  destroy  help  quit  show  update
 $
 ```
 
+## Supported Commands
+* create: Create a new instance of specified class, save it to the JSON file, and print the id
+* show: Print the string representation of an instance based on the class name and id
+* destroy: Delete an instance based on the class name and id
+* all: Print the string representations of all instances based on the class name (or all classes if no class is specified)
+* update: Update an instance based on the class name and id by adding or updating an attribute
+
+
 ## Examples
 
 ## Authors
