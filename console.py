@@ -40,9 +40,22 @@ class HBNBCommand(cmd.Cmd):
                     elif (len(remain2) >= 3):
                         id_attr = remain2[0].strip("\"'")
                         attr_name = remain2[1].strip("\"'")
-                        attr_val = remain2[2]
-                        return "{} {} {} {} {}".format(f, c, id_attr,
-                                                       attr_name, attr_val)
+                        if not attr_name.startswith("{"):
+                            attr_val = remain2[2]
+                            return "{} {} {} {} {}".format(f, c, id_attr,
+                                                           attr_name, attr_val)
+                        for i in range(1, len(remain2) // 2 + 1):
+                            attr_name = remain2[2 * i - 1].strip("\"'{}:")
+                            attr_val = remain2[2 * i].strip("\"'{}:")
+                            if (i >= len(remain2) // 2):
+                                return "{} {} {} {} {}".format(f, c, id_attr,
+                                                               attr_name,
+                                                               attr_val)
+                            else:
+                                self.cmdqueue.append(f + ' ' + c + ' ' +
+                                                     id_attr + ' ' +
+                                                     attr_name + ' ' +
+                                                     attr_val)
                     new_line = "{} {} {}".format(f, c, remain)
                     return new_line
         return line
