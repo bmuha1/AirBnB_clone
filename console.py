@@ -79,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
                 key = args[0] + '.' + args[1]
                 storage.all()[key]
             except:
-                print('**no instance found **')
+                print('** no instance found **')
                 return
 
         if len(args) == 2:

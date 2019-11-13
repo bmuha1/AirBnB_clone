@@ -17,23 +17,149 @@ class TestConsole(unittest.TestCase):
 
     def tearDown(self):
         """ Delete test json file and put original file back """
+        if os.path.isfile("file.json"):
+            os.remove("file.json")
         if os.path.isfile("file.json.temp"):
             os.rename("file.json.temp", "file.json")
 
     def test_create(self):
         """ Test create """
         with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class name missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Banu")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class doesn't exist **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("create BaseModel")
-            self.assertTrue(type(f), str)
-            self.assertEqual(len(f.getvalue().strip()), 36)
             id = f.getvalue().strip()
+            self.assertTrue(type(f), str)
+            self.assertEqual(len(id), 36)
 
     def test_show(self):
         """ Test show """
         with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("show BaseModel" + str(id))
+            HBNBCommand().onecmd("show")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class name missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show Brent")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class doesn't exist **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show BaseModel")
+            self.assertEqual(f.getvalue().strip(),
+                             "** instance id missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show BaseModel " + str(id))
             self.assertTrue(type(f), str)
-            self.assertEqual(len(f.getvalue().strip()), 25)
+            self.assertEqual(len(f.getvalue().strip()), 23)
+
+    def test_destroy(self):
+        """ Test destroy """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class name missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy Banu")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class doesn't exist **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy BaseModel")
+            self.assertEqual(f.getvalue().strip(),
+                             "** instance id missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create BaseModel")
+            id = f.getvalue().strip()
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("destroy BaseModel " + str(id))
+            self.assertEqual(f.getvalue().strip(), "")
+
+    def test_all(self):
+        """ Test all """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create User")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create State")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create City")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Amenity")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Place")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create Review")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("all")
+            self.assertTrue("[User]" in f.getvalue().strip())
+            self.assertTrue("[State]" in f.getvalue().strip())
+            self.assertTrue("[City]" in f.getvalue().strip())
+            self.assertTrue("[Amenity]" in f.getvalue().strip())
+            self.assertTrue("[Place]" in f.getvalue().strip())
+            self.assertTrue("[Review]" in f.getvalue().strip())
+            self.assertTrue("created_at" in f.getvalue().strip())
+            self.assertTrue("updated_at" in f.getvalue().strip())
+            self.assertTrue("id" in f.getvalue().strip())
+
+    def test_update(self):
+        """ Test update """
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("create User")
+            id = f.getvalue().strip()
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class name missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update Brent")
+            self.assertEqual(f.getvalue().strip(),
+                             "** class doesn't exist **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update User")
+            self.assertEqual(f.getvalue().strip(),
+                             "** instance id missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update User Banu")
+            self.assertEqual(f.getvalue().strip(),
+                             "** no instance found **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update User " + str(id))
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(),
+                             "** attribute name missing **")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("update User " + str(id) + " name Banu")
+            self.assertTrue(type(f), str)
+            self.assertEqual(f.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as f:
+            HBNBCommand().onecmd("show User " + str(id))
+            self.assertTrue("name" in f.getvalue().strip())
+            self.assertTrue("Banu" in f.getvalue().strip())
 
     def test_newline_spaces(self):
         """ Test newline and spaces input """
