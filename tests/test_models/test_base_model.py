@@ -20,7 +20,7 @@ class TestBaseModel(unittest.TestCase):
         brba.my_number = 89
         self.assertEqual(brba.my_number, 89)
         self.assertTrue(type(brba.my_number), int)
-        
+
     def test_types2(self):
         """ created_at, updated_at, id type test """
         brba = BaseModel()
@@ -88,11 +88,61 @@ class TestBaseModel(unittest.TestCase):
         brba = BaseModel()
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
         dicti = brba.to_dict()
-        self.assertEqual(dicti["created_at"], brba.created_at.strftime(time_format))
-        self.assertEqual(dicti["updated_at"], brba.updated_at.strftime(time_format))
+        self.assertEqual(dicti["created_at"],
+                         brba.created_at.strftime(time_format))
+        self.assertEqual(dicti["updated_at"],
+                         brba.updated_at.strftime(time_format))
         self.assertEqual(dicti["__class__"], "BaseModel")
         self.assertEqual(type(dicti["created_at"]), str)
         self.assertEqual(type(dicti["updated_at"]), str)
+
+    def test_kwargs_name_error(self):
+        """ kwargs syntax """
+        with self.assertRaises(NameError):
+            brba = BaseModel(**brba)
+
+    def test_kwargs_type_error(self):
+        """ kwargs syntax """
+        with self.assertRaises(TypeError):
+            brba = BaseModel(**"brba")
+
+    def test_kwargs_name_error(self):
+        """ kwargs syntax """
+        with self.assertRaises(NameError):
+            brba = BaseModel(**{brba})
+
+    def test_kwargs_name_error(self):
+        """ kwargs syntax """
+        with self.assertRaises(TypeError):
+            brba = BaseModel(**{"brba"})
+
+    def test_int_attributes(self):
+        """ pass attributes to the class """
+        brba = BaseModel(1, 2, 3, 4)
+        self.assertTrue(hasattr(brba, "id"))
+        self.assertTrue(hasattr(brba, "created_at"))
+        self.assertTrue(hasattr(brba, "updated_at"))
+
+    def test_attr_nan(self):
+        """ nan attribute """
+        brba = BaseModel(float("nan"))
+        self.assertTrue(hasattr(brba, "id"))
+        self.assertTrue(hasattr(brba, "created_at"))
+        self.assertTrue(hasattr(brba, "updated_at"))
+
+    def test_attr_inf(self):
+        """ inf attribute """
+        brba = BaseModel(float("inf"))
+        self.assertTrue(hasattr(brba, "id"))
+        self.assertTrue(hasattr(brba, "created_at"))
+        self.assertTrue(hasattr(brba, "updated_at"))
+
+    def test_attr_none(self):
+        """ None attribute """
+        brba = BaseModel(None)
+        self.assertTrue(hasattr(brba, "id"))
+        self.assertTrue(hasattr(brba, "created_at"))
+        self.assertTrue(hasattr(brba, "updated_at"))
 
 if __name__ == '__main__':
     unittest.main()
