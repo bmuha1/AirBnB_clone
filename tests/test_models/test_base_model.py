@@ -5,10 +5,23 @@ from datetime import datetime, date, time
 import uuid
 from models import storage
 from models.base_model import BaseModel
+import os
 
 
 class TestBaseModel(unittest.TestCase):
     """ Test for BaseModel class """
+
+    def setUp(self):
+        """ Move json file if it exists """
+        if os.path.isfile("file.json"):
+            os.rename("file.json", "file.json.temp")
+
+    def tearDown(self):
+        """ Delete test json file and put original file back """
+        if os.path.isfile("file.json"):
+            os.remove("file.json")
+        if os.path.isfile("file.json.temp"):
+            os.rename("file.json.temp", "file.json")
 
     def test_types1(self):
         """ name, number, class type test """
