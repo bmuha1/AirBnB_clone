@@ -21,6 +21,8 @@ class TestFileStorage(unittest.TestCase):
         """ Move json file if it exists """
         if os.path.isfile("file.json"):
             os.rename("file.json", "file.json.temp")
+        self.brba = FileStorage()
+        self.my_model = BaseModel()
 
     def tearDown(self):
         """ Delete test json file and put original file back """
@@ -39,8 +41,6 @@ class TestFileStorage(unittest.TestCase):
 
     def test_all(self):
         """ type of dictionary """
-        brba = FileStorage()
-        my_model = BaseModel()
         my_user = User()
         my_state = State()
         my_city = City()
@@ -48,81 +48,38 @@ class TestFileStorage(unittest.TestCase):
         my_place = Place()
         my_review = Review()
         storage.reload()
-        self.assertEqual(type(brba.all()), dict)
-        self.assertTrue("BaseModel" in str(brba.all()))
-        self.assertTrue("User" in str(brba.all()))
-        self.assertTrue("State" in str(brba.all()))
-        self.assertTrue("City" in str(brba.all()))
-        self.assertTrue("Amenity" in str(brba.all()))
-        self.assertTrue("Place" in str(brba.all()))
-        self.assertTrue("Review" in str(brba.all()))
+        self.assertEqual(type(self.brba.all()), dict)
+        self.assertTrue("BaseModel" in str(self.brba.all()))
+        self.assertTrue("User" in str(self.brba.all()))
+        self.assertTrue("State" in str(self.brba.all()))
+        self.assertTrue("City" in str(self.brba.all()))
+        self.assertTrue("Amenity" in str(self.brba.all()))
+        self.assertTrue("Place" in str(self.brba.all()))
+        self.assertTrue("Review" in str(self.brba.all()))
 
     def test_new(self):
         """ new method """
-        brba = FileStorage()
-        my_model = BaseModel()
-        my_user = User()
-        my_state = State()
-        my_city = City()
-        my_amenity = Amenity()
-        my_place = Place()
-        my_review = Review()
         storage.reload()
-        brba.new(BaseModel())
-        self.assertTrue(brba.all())
-        self.assertTrue("BaseModel" in str(brba.all()))
-        self.assertTrue("User" in str(brba.all()))
-        self.assertTrue("State" in str(brba.all()))
-        self.assertTrue("City" in str(brba.all()))
-        self.assertTrue("Amenity" in str(brba.all()))
-        self.assertTrue("Place" in str(brba.all()))
-        self.assertTrue("Review" in str(brba.all()))
+        self.brba.new(BaseModel())
+        self.assertTrue(self.brba.all())
 
     def test_save(self):
         """ json file check """
-        brba = FileStorage()
-        my_model = BaseModel()
-        my_user = User()
-        my_state = State()
-        my_city = City()
-        my_amenity = Amenity()
-        my_place = Place()
-        my_review = Review()
         storage.reload()
-        brba.new(BaseModel())
-        brba.save()
+        self.brba.new(BaseModel())
+        self.brba.save()
         self.assertTrue(os.path.isfile("file.json"))
-        self.assertTrue("BaseModel" in str(brba.all()))
-        self.assertTrue("User" in str(brba.all()))
-        self.assertTrue("State" in str(brba.all()))
-        self.assertTrue("City" in str(brba.all()))
-        self.assertTrue("Amenity" in str(brba.all()))
-        self.assertTrue("Place" in str(brba.all()))
-        self.assertTrue("Review" in str(brba.all()))
+        self.assertTrue("BaseModel" in str(self.brba.all()))
 
     def test_reload(self):
         """ reload method """
-        brba = FileStorage()
-        my_model = BaseModel()
-        my_user = User()
-        my_state = State()
-        my_city = City()
-        my_amenity = Amenity()
-        my_place = Place()
-        my_review = Review()
         storage.reload()
-        key = "BaseModel" + "." + my_model.id
-        brba.new(my_model)
-        brba.save()
-        brba.reload()
-        self.assertTrue(brba.all()[key])
-        self.assertTrue("BaseModel" in str(brba.all()))
-        self.assertTrue("User" in str(brba.all()))
-        self.assertTrue("State" in str(brba.all()))
-        self.assertTrue("City" in str(brba.all()))
-        self.assertTrue("Amenity" in str(brba.all()))
-        self.assertTrue("Place" in str(brba.all()))
-        self.assertTrue("Review" in str(brba.all()))
+        key = "BaseModel" + "." + self.my_model.id
+        self.brba.new(self.my_model)
+        self.brba.save()
+        self.brba.reload()
+        self.assertTrue(self.brba.all()[key])
+        self.assertTrue("BaseModel" in str(self.brba.all()))
 
 if __name__ == '__main__':
     unittest.main()
