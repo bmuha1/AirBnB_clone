@@ -94,8 +94,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     value = int(args[3])
             except ValueError:
-                value = str(args[3]).strip('\"')
-                value = value.strip("\'")
+                value = str(args[3]).strip("\"'")
                 value = str(value)
             setattr(storage.all()[key], args[2], value)
             storage.save()
