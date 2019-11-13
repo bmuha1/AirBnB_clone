@@ -29,7 +29,9 @@ class HBNBCommand(cmd.Cmd):
                 prefix = "{}.{}".format(c, f)
                 if line.startswith(prefix):
                     remain = line[len(prefix) + 1:-1].replace(",", "")
-                    remain2 = remain.split()
+                    remain = remain.replace(":", "")
+                    remain = remain.replace("}", "")
+                    remain2 = shlex.split(remain, posix=False)
                     if (len(remain2) == 1):
                         id_attr = remain2[0].strip("\"'")
                         return "{} {} {}".format(f, c, id_attr)
@@ -38,12 +40,13 @@ class HBNBCommand(cmd.Cmd):
                         attr_name = remain2[1].strip("\"'")
                         return "{} {} {} {}".format(f, c, id_attr, attr_name)
                     elif (len(remain2) >= 3):
-                        id_attr = remain2[0].strip("\"'")
-                        attr_name = remain2[1].strip("\"'")
+                        id_attr = remain2[0]
+                        attr_name = remain2[1]
                         if not attr_name.startswith("{"):
                             attr_val = remain2[2]
                             return "{} {} {} {} {}".format(f, c, id_attr,
                                                            attr_name, attr_val)
+
                         for i in range(1, len(remain2) // 2 + 1):
                             if len(remain2) >= 2 * i + 1:
                                 attr_name = remain2[2 * i - 1].strip("\"'{}:")
@@ -54,9 +57,9 @@ class HBNBCommand(cmd.Cmd):
                                                                attr_val)
                             else:
                                 self.cmdqueue.append(f + ' ' + c + ' ' +
-                                                     id_attr + ' ' +
-                                                     attr_name + ' ' +
-                                                     attr_val)
+                                                     id_attr + ' "' +
+                                                     attr_name + '" "' +
+                                                     attr_val + '"')
                     new_line = "{} {} {}".format(f, c, remain)
                     return new_line
         return line
@@ -94,9 +97,9 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     value = int(args[3])
             except ValueError:
-                value = str(args[3]).strip("\"'")
+                value = str(args[3]).strip("\"':")
                 value = str(value)
-            setattr(storage.all()[key], args[2], value)
+            setattr(storage.all()[key], args[2].strip("\"':"), value)
             storage.save()
 
     def do_all(self, line):
