@@ -6,6 +6,7 @@ import uuid
 from models import storage
 from models.base_model import BaseModel
 import os
+import time
 
 
 class TestBaseModel(unittest.TestCase):
@@ -75,6 +76,7 @@ class TestBaseModel(unittest.TestCase):
         """ save updated_at """
         brba = BaseModel()
         br = brba.updated_at
+        time.sleep(0.1)
         brba.save()
         ba = brba.updated_at
         self.assertNotEqual(br, ba)
