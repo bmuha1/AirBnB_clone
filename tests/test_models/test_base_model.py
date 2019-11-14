@@ -7,6 +7,7 @@ from models import storage
 from models.base_model import BaseModel
 import os
 import time
+import pep8
 
 
 class TestBaseModel(unittest.TestCase):
@@ -23,6 +24,13 @@ class TestBaseModel(unittest.TestCase):
             os.remove("file.json")
         if os.path.isfile("file.json.temp"):
             os.rename("file.json.temp", "file.json")
+
+    def test_pep8(self):
+        """ pep8 test """
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(["models/base_model.py"])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warnings).")
 
     def test_types1(self):
         """ name, number, class type test """
