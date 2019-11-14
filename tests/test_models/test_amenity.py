@@ -35,7 +35,6 @@ class TestAmenity(unittest.TestCase):
     def test_default_attributes(self):
         """ default attributes """
         brba = Amenity()
-        self.assertTrue
         self.assertTrue(hasattr(brba, "updated_at"))
         self.assertTrue(hasattr(brba, "created_at"))
         self.assertTrue(hasattr(brba, "id"))
