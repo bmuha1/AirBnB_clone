@@ -4,11 +4,9 @@
     width: 100%;
     border: 1px solid #DDDDDD;
     border-radius: 5px;
-    padding: 0;
-    margin: 0;
 }
 
-.button {
+button {
     background-color: #FF5A5F;
     color: #FFFFFF;
     height: 48px;
@@ -23,6 +21,6 @@
     transform: translateY(-50%);
 }
 
-.button:hover {
+button:hover {
     opacity: 90%;
 }
