@@ -1,7 +1,15 @@
+.places {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
 .places h1 {
     font-size: 30px;
     margin: 20px 0px 0px 20px;
     text-align: left;
+    flex-basis: 100%;
 }
 
 .places h2 {

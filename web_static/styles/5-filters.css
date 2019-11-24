@@ -6,6 +6,7 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
+    margin-bottom: 60px;
 }
 
 button {
