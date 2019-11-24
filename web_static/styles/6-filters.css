@@ -59,11 +59,14 @@ li {
 .popover {
     display: none;
     background-color: #FAFAFA;
-    width: 209px;
+    width: 100%;
+    top: 4%;
+    padding: 0;
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     list-style-type: none;
-    margin-top: 17px;
+    z-index: 1;
+    position: relative;
 }
 
 .locations:hover .popover {
