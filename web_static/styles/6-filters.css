@@ -3,7 +3,7 @@
     height: 70px;
     width: 100%;
     border: 1px solid #DDDDDD;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 button {
@@ -16,7 +16,6 @@ button {
     border-radius: 4px;
     position: absolute;
     right: 30px;
-    vertical-align: middle;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -43,15 +42,13 @@ h2 {
 
 h3 {
     font-weight: 600;
-    margin: 15px 0px 3px;
-    padding-left: 50px;
+    margin: 15px 50px 3px;
 }
 
 h4 {
     font-weight: 400;
     font-size: 14px;
-    margin: 0px;
-    padding-left: 50px;
+    margin: 0px 50px 0px;
 }
 
 li {

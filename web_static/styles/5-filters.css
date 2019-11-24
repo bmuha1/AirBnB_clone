@@ -3,7 +3,7 @@
     height: 70px;
     width: 100%;
     border: 1px solid #DDDDDD;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 button {
@@ -16,7 +16,6 @@ button {
     border-radius: 4px;
     position: absolute;
     right: 30px;
-    vertical-align: middle;
     top: 50%;
     transform: translateY(-50%);
 }
